@@ -102,7 +102,7 @@ const Page = () => {
               <input
                 type="text"
                 className="px-5 pl-2 py-2 focus:outline-none w-full text-sm bg-transparent"
-                placeholder="City, State or Region"
+                placeholder="Property Name, Location or Builder"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onFocus={() => setOpenSearchBox(true)}
@@ -185,7 +185,7 @@ const Page = () => {
             <input
               type="text"
               className="px-5 pl-2 py-2 focus:outline-none w-full text-sm bg-transparent"
-              placeholder="City, State or Region"
+              placeholder="Property Name, Location or Builder"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onFocus={() => setOpenSearchBox(true)}

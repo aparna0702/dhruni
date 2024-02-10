@@ -13,7 +13,9 @@ export default function useGetPropertiesBySearch(text) {
       try {
         const res = await fetch(
           `${NEXT_PUBLIC_STRAPI_URL}/api/properties?${
-            text !== "" ? `filters[location][$containsi]=${text}` : ""
+            text !== ""
+              ? `filters[$or][0][location][$containsi]=${text}&filters[$or][1][builder][username][$containsi]=${text}&filters[$or][2][title][$containsi]=${text}`
+              : ""
           }&populate=image&pagination[limit]=5`,
           {
             method: "GET",
