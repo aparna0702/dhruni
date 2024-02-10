@@ -1,15 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import useGetBlog from "@/hooks/useGetBlog";
 import parse from "html-react-parser";
 import { SyncLoader } from "react-spinners";
 import PageNotFound from "@/components/PageNotFound";
+import { useRouter } from "next/router";
 
 const Page = () => {
-  const { blogId } = useParams();
+  const { blogId } = useRouter().query;
   const { data: blog, loading, error } = useGetBlog(blogId);
 
   const pageNotFound = () => <PageNotFound />;
