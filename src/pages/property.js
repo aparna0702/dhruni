@@ -27,40 +27,6 @@ const Page = () => {
       ) : (
         <>
           <section className="w-full bg-white px-3 lg:px-36 py-5 flex flex-row items-center overflow-x-scroll border border-r-0 border-l-0 sticky top-0 z-20 no-scrollbar">
-            <label htmlFor="type" className="text-sm">
-              Property Type
-            </label>
-            <select
-              id="type"
-              className="rounded-full text-center text-xs px-1 py-2 mx-2 border border-gray-400 text-gray-800 hover:bg-gray-200 capitalize hover:cursor-pointer truncate"
-            >
-              <option value="all" selected="selected">
-                All
-              </option>
-              <option value="all">Pent House</option>
-              <option value="all">Home</option>
-              <option value="all">Bunglow</option>
-              <option value="all">Garden</option>
-            </select>
-            <label htmlFor="price" className="text-sm ml-10">
-              Property Price
-            </label>
-            <select
-              id="price"
-              className="rounded-full text-center text-xs px-1 py-2 mx-2 border border-gray-400 text-gray-800 hover:bg-gray-200 capitalize hover:cursor-pointer truncate"
-            >
-              <option value="all" selected="selected">
-                All
-              </option>
-              <option value="50l">50 Lacs</option>
-              <option value="1cr">1 Crore</option>
-              <option value="2cr">2 Crore</option>
-              <option value="5cr">5 Crore</option>
-              <option value="8cr">8 Crore</option>
-              <option value="10cr">10 Crore</option>
-            </select>
-          </section>
-          <section className="w-full bg-white px-3 lg:px-36 py-5 flex flex-row items-center overflow-x-scroll border border-r-0 border-l-0 sticky top-0 z-20 no-scrollbar">
             {cities.map((ele) => (
               <Link href={`/property/${ele?.attributes?.slug}`} key={ele.id}>
                 <span className="rounded-full w-[150px] text-center text-xs px-3 py-2 mx-2 border border-gray-400 text-gray-800 hover:bg-gray-200 capitalize hover:cursor-pointer truncate">
