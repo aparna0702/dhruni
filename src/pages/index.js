@@ -73,7 +73,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="w-screen flex flex-col justify-center items-center font-inter">
+    <div className="w-full flex flex-col justify-center items-center font-inter">
       <Navbar position={"absolute"} logo={"white"} />
       {isScrolled && (
         <nav className="w-full fixed top-0 left-0 h-16 px-20 lg:px-36 gap-6 bg-white shadow-sm z-30 duration-300 flex flex-row items-center justify-center">

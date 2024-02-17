@@ -14,6 +14,7 @@ const Page = () => {
 
   const pageNotFound = () => <PageNotFound />;
 
+  console.log(blog)
   useEffect(() => {
     if (blog === null) {
       pageNotFound();

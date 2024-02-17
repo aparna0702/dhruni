@@ -17,7 +17,7 @@ const Page = () => {
           Journal
         </h1>
         <div className="mt-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 gap-6">
-          {blog.length > 0 ? (
+          {blog?.length > 0 ? (
             blog?.map((ele) => (
               <article
                 className="w-full border border-gray-400 rounded-lg p-2 max-w-[320px]"

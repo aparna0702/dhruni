@@ -23,21 +23,6 @@ import { useRouter } from "next/router";
 import PageNotFound from "@/components/PageNotFound";
 import Head from "next/head";
 
-// const GenerateMetaDataTags = () => {
-//   const { propId } = useParams();
-//   const { data: property, loading, error } = useGetProperty(propId);
-//   const metaData = {};
-
-//   property?.attributes?.SEO?.forEach((ele) => {
-//     metaData[ele.name] = ele.content;
-//   });
-
-//   if (!loading) {
-//     return metaData;
-//   }
-// };
-// export const metadata = GenerateMetaDataTags();
-
 const PropertyDetails = () => {
   const { city, town, propId } = useRouter().query;
   const {

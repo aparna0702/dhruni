@@ -42,7 +42,7 @@ const CardSliders = ({ title, loading, cards = [] }) => {
       <div className="w-full flex flex-row justify-start flex-wrap">
         {loading ? (
           <SyncLoader color={"#000"} loading={loading} size={10} />
-        ) : cards.length === 0 ? (
+        ) : cards?.length === 0 ? (
           <h1 className="w-full text-xl italic text-center">No data found</h1>
         ) : (
           <Swiper
@@ -57,7 +57,7 @@ const CardSliders = ({ title, loading, cards = [] }) => {
               swiperRef.current = swiper;
             }}
           >
-            {cards.length &&
+            {cards?.length &&
               cards?.map((ele, i) => (
                 <SwiperSlide
                   key={i}
