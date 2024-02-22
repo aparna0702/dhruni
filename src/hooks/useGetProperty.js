@@ -6,7 +6,7 @@ const NEXT_PUBLIC_STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 export default function useGetProperty(id) {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState();
 
   useEffect(() => {
     (async () => {

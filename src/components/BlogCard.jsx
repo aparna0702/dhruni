@@ -4,17 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const BlogCard = ({ title, image, date }) => {
+const BlogCard = ({ title, image, date, slug }) => {
   return (
     <article className="w-full p-2">
       <Link
-        href={"/blog/1"}
+        href={`/blog/${slug}`}
         className="w-full flex flex-row items-center justify-evenly gap-2"
       >
         <span className="w-1/2 max-w-[200px]">
-          {/* src="/assets/images/lux1.jpg" */}
           <Image
-            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${image}`}
+            src={`${image}`}
             alt="house"
             width={0}
             height={0}

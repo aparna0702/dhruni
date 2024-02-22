@@ -10,7 +10,7 @@ const Page = () => {
   const { data: blog, loading, error } = useGetAllBlogs();
 
   return (
-    <div className="w-screen px-3 md:px-20 font-inter">
+    <div className="w-full px-3 md:px-20 font-inter">
       <Navbar position={"relative"} logo={"black"} />
       <div className="w-full my-6">
         <h1 className="text-4xl w-full text-center font-semibold font-heldane text-gray-800">
@@ -23,10 +23,10 @@ const Page = () => {
                 className="w-full border border-gray-400 rounded-lg p-2 max-w-[320px]"
                 key={ele?.id}
               >
-                <Link href={`/blog/${ele?.id}`}>
+                <Link href={`/blog/${ele?.attributes?.slug}`}>
                   <header className="w-full h-48">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${ele?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                      src={`${ele?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
                       alt="logo"
                       width={0}
                       height={0}

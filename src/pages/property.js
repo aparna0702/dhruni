@@ -18,10 +18,10 @@ const Page = () => {
   } = useGetAllPropertyCities();
 
   return (
-    <div className="w-screen font-inter relative">
+    <div className="w-full font-inter relative">
       <Navbar position={"relative"} logo={"black"} />
       {loading ? (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <SyncLoader color="#000" loading={loading} size={10} />
         </div>
       ) : (

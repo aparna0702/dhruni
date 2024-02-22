@@ -16,7 +16,7 @@ export default function useGetPropertiesBySearch(text) {
             text !== ""
               ? `filters[$or][0][location][$containsi]=${text}&filters[$or][1][builder][username][$containsi]=${text}&filters[$or][2][title][$containsi]=${text}`
               : ""
-          }&populate=image&pagination[limit]=5`,
+          }&populate=*&pagination[limit]=5`,
           {
             method: "GET",
             headers: {

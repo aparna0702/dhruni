@@ -139,7 +139,7 @@ const Page = () => {
               ? homePage?.attributes?.carousel?.data?.map((ele) => (
                   <SwiperSlide key={ele?.id} className="w-full h-full">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${ele?.attributes?.url}`}
+                      src={`${ele?.attributes?.url}`}
                       alt={`${
                         ele?.attributes?.caption ||
                         ele?.attributes?.alternativeText
@@ -202,7 +202,7 @@ const Page = () => {
             value="Search"
           />
         </div>
-        <h6 className="hidden md:block text-xs text-white mt-5 font-semibold z-10">
+        <h6 className="hidden md:block text-xs text-white mt-5 font-semibold z-[5]">
           EXPLORE 500+ HOMES, MANSIONS AND VILLAS FOR SALE WORLDWIDE IN ONE
           SIMPLE SEARCH
         </h6>
@@ -222,7 +222,7 @@ const Page = () => {
                   key={ele.id}
                 >
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${ele?.attributes?.url}`}
+                    src={`${ele?.attributes?.url}`}
                     alt={`${ele?.attributes?.alternativeText || "Builder"}`}
                     width={0}
                     height={0}
@@ -238,12 +238,20 @@ const Page = () => {
         )}
       </div>
 
-      <section className="w-full py-4 md:px-20 px-3 my-14">
-        <CardSliders title={`Exclusive Listings`} cards={exclusiveListings} />
-      </section>
-      <section className="w-full py-4 md:px-20 px-3 my-14">
-        <CardSliders title={`New Listings`} cards={newListings} />
-      </section>
+      {exclusiveListings?.length > 0 ? (
+        <section className="w-full py-4 md:px-20 px-3 my-14">
+          <CardSliders title={`Exclusive Listings`} cards={exclusiveListings} />
+        </section>
+      ) : (
+        ""
+      )}
+      {newListings?.length > 0 ? (
+        <section className="w-full py-4 md:px-20 px-3 my-14">
+          <CardSliders title={`New Listings`} cards={newListings} />
+        </section>
+      ) : (
+        ""
+      )}
       <hr width={"100%"} />
       <section className="w-full py-12 lg:px-36 px-10 my-14 flex flex-wrap flex-row justify-evenly items-center relative gap-10 bg-[#f3f2ed]">
         <div className="w-full md:w-2/5 z-10 mt-10 md:mt-0">
@@ -267,12 +275,20 @@ const Page = () => {
           />
         </div>
       </section>
-      <section className="w-full py-4 md:px-20 px-3 my-14">
-        <CardSliders title={`Listings`} cards={allProperties} />
-      </section>
-      <section className="w-full my-14 py-4 md:px-20 px-3">
-        <BlogsContainer cards={recentBlogs} />
-      </section>
+      {allProperties?.length > 0 ? (
+        <section className="w-full py-4 md:px-20 px-3 my-14">
+          <CardSliders title={`Listings`} cards={allProperties} />
+        </section>
+      ) : (
+        ""
+      )}
+      {recentBlogs?.length > 0 ? (
+        <section className="w-full my-14 py-4 md:px-20 px-3">
+          <BlogsContainer cards={recentBlogs} />
+        </section>
+      ) : (
+        ""
+      )}
       <section className="w-full my-14 py-4 md:px-20 px-3">
         <div
           className="w-full p-8 text-white h-96 md:h-72 bg-[linear-gradient(to_right,rgba(0,0,0,0.80),rgba(0,0,0,0.4)),url('../../public/assets/images/lux2.jpg')] 
@@ -296,11 +312,13 @@ const Page = () => {
           </div>
         </div>
       </section>
-      <section className="w-full my-14 py-4 md:px-20 px-10">
-        {homePage?.attributes?.content !== undefined
-          ? parse(homePage?.attributes?.content)
-          : ""}
-      </section>
+      {homePage?.attributes?.content !== undefined ? (
+        <section className="w-full my-14 py-4 md:px-20 px-10">
+          {parse(homePage?.attributes?.content)}
+        </section>
+      ) : (
+        ""
+      )}
       <hr width={"100%"} />
       <Newsletter />
       <hr width={"100%"} />

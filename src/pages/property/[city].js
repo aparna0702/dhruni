@@ -1,12 +1,13 @@
 "use client";
+import Map from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
 import useGetAllProperties from "@/hooks/useGetAllProperties";
 import useGetAllPropertyTowns from "@/hooks/useGetAllPropertyTowns";
-import Image from "next/image";
+import useGetCity from "@/hooks/useGetCity";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { SyncLoader } from "react-spinners";
 
 const Page = () => {
@@ -18,11 +19,17 @@ const Page = () => {
     error: townError,
   } = useGetAllPropertyTowns(city);
 
+  const {
+    data: cityData,
+    loading: cityLoading,
+    error: cityError,
+  } = useGetCity(city);
+
   return (
-    <div className="w-screen font-inter relative">
+    <div className="w-full font-inter relative">
       <Navbar position={"relative"} logo={"black"} />
       {loading ? (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <SyncLoader color="#000" loading={loading} size={10} />
         </div>
       ) : (
@@ -40,15 +47,16 @@ const Page = () => {
             ))}
           </section>
           <section className="w-full py-10 flex md:flex-row-reverse flex-col items-start px-3 md:px-10 gap-4">
-            <div className="w-full 2xl:w-1/2 h-[80vh]">
-              <Image
+            <div className="w-full 2xl:w-1/2 h-[70vh]">
+              <Map lat={cityData?.attributes?.latitude} lng={cityData?.attributes?.longitude}/>
+              {/* <Image
                 src={"/assets/images/map.jpeg"}
                 alt="property"
                 width={0}
                 height={0}
                 sizes={"100vw"}
                 className="w-full h-full"
-              />
+              /> */}
             </div>
             {property?.length === 0 ? (
               <div className="w-full h-full flex items-center justify-center">

@@ -15,6 +15,7 @@ const BlogsContainer = ({ cards }) => {
             title={ele?.attributes?.title}
             image={ele?.attributes?.image?.data?.attributes?.url}
             date={ele?.attributes?.publishedAt}
+            slug={ele?.attributes?.slug}
           />
         ))}
       </div>

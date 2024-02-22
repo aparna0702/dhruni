@@ -22,7 +22,7 @@ const GalleryModal = ({ open, close, images }) => {
     <div
       className={`${
         open ? "flex" : "hidden"
-      } w-screen h-screen items-center justify-center p-2 md:p-20 lg:p-44 fixed top-0 left-0 bg-[#000d] z-50`}
+      } w-full h-screen items-center justify-center p-2 md:p-20 lg:p-44 fixed top-0 left-0 bg-[#000d] z-50`}
     >
       <section
         className="w-full h-screen rounded-3xl bg-[#fff] p-10 pt-20 md:p-20 relative no-scrollbar"

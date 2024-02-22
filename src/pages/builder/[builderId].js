@@ -26,9 +26,8 @@ const Page = () => {
       pageNotFound();
     }
   }, [builder]);
-
   return (
-    <div className="w-screen h-screen box-border">
+    <div className="w-full h-screen box-border">
       <Navbar logo="black" position={"relative"} />
       {loading ? (
         <div className="w-full h-screen flex items-center justify-center">

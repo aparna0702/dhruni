@@ -12,9 +12,10 @@ const Page = () => {
   const { blogId } = useRouter().query;
   const { data: blog, loading, error } = useGetBlog(blogId);
 
+  console.log(blog)
+
   const pageNotFound = () => <PageNotFound />;
 
-  console.log(blog)
   useEffect(() => {
     if (blog === null) {
       pageNotFound();
@@ -22,24 +23,24 @@ const Page = () => {
   }, [blog]);
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <Navbar position={"relative"} logo={"black"} />
       {loading ? (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <SyncLoader color={"#000"} loading={loading} size={10} />
         </div>
       ) : (
         <>
-          <div className="w-full min-h-[300px]">
-            {blog?.attributes?.image?.data?.attributes?.formats?.medium?.url !==
+          <div className="w-full h-[75vh]">
+            {blog?.attributes?.image?.data?.attributes?.formats?.large?.url !==
             undefined ? (
               <Image
-                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${blog?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                src={`${blog?.attributes?.image?.data?.attributes?.formats?.large?.url}`}
                 alt="house"
                 width={0}
                 height={0}
                 sizes={"100vw"}
-                className="w-full h-full"
+                className="w-full h-full object-cover object-center"
               />
             ) : (
               ""

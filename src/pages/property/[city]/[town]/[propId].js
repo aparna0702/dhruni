@@ -22,6 +22,7 @@ import useGetAllProperties from "@/hooks/useGetAllProperties";
 import { useRouter } from "next/router";
 import PageNotFound from "@/components/PageNotFound";
 import Head from "next/head";
+import Map from "@/components/Map";
 
 const PropertyDetails = () => {
   const { city, town, propId } = useRouter().query;
@@ -37,8 +38,6 @@ const PropertyDetails = () => {
   const [galleryOpen, setGalleryOpen] = React.useState(false);
   const images = [];
 
-  console.log(property);
-
   const pageNotFound = () => <PageNotFound />;
 
   useEffect(() => {
@@ -50,19 +49,19 @@ const PropertyDetails = () => {
   if (property?.attributes?.imageGallery?.data?.length > 0) {
     property?.attributes?.imageGallery?.data?.forEach((ele) => {
       images.push({
-        src: `${process.env.NEXT_PUBLIC_STRAPI_URL}${ele?.attributes?.formats?.medium?.url}`,
-        original: `${process.env.NEXT_PUBLIC_STRAPI_URL}${ele?.attributes?.url}`,
+        src: `${ele?.attributes?.formats?.medium?.url}`,
+        original: `${ele?.attributes?.url}`,
         width: 320,
         height: 174,
         caption: property?.attributes?.title,
       });
     });
   }
-
+  console.log(property);
   return (
-    <div className="w-screen font-inter relative">
+    <div className="w-full font-inter relative">
       {loading ? (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-full h-screen flex items-center justify-center">
           <SyncLoader color="#000" loading={loading} size={10} />
         </div>
       ) : (
@@ -124,7 +123,7 @@ const PropertyDetails = () => {
             </button>
             <div className="row-span-2 col-span-2 overflow-hidden">
               <Image
-                src={"/assets/images/lux1.jpg"}
+                src={`${property?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
                 alt={"property"}
                 width={0}
                 height={0}
@@ -145,7 +144,7 @@ const PropertyDetails = () => {
                   key={i}
                 >
                   <Image
-                    src={`/assets/images/lux${i + 2}.jpg`}
+                    src={`${property?.attributes?.imageGallery?.data?.[i]?.attributes?.formats?.medium?.url}`}
                     alt={"property"}
                     width={0}
                     height={0}
@@ -265,16 +264,21 @@ const PropertyDetails = () => {
                   {property?.attributes?.location}
                 </p>
                 <br />
-                <div className="w-full h-96 border border-black"></div>
+                <div className="w-full h-96 border border-black">
+                  <Map
+                    lat={property?.attributes?.latitude}
+                    lng={property?.attributes?.longitude}
+                  />
+                </div>
                 <br />
-                <Link
+                {/* <Link
                   href="https://goo.gl/maps/7JYz9Zq8qfXZ7Q6r9"
                   target="_blank"
                   rel="noreferrer"
                   className="font-semibold text-gray-800 mt-5 hover:underline"
                 >
                   See in Google Maps
-                </Link>
+                </Link> */}
               </div>
               <hr width="100%" className="my-10" />
               <div className="w-full">
@@ -310,8 +314,8 @@ const PropertyDetails = () => {
                 <br />
                 <h6 className="font-medium">About</h6>
                 <p className="text-sm lg:text-base text-gray-800">
-                  {property?.attributes?.builder?.data?.attributes?.about !==
-                  undefined
+                  {typeof property?.attributes?.builder?.data?.attributes
+                    ?.about === "string"
                     ? parse(
                         property?.attributes?.builder?.data?.attributes?.about
                       )
@@ -419,10 +423,19 @@ const PropertyDetails = () => {
               </div>
             </article>
           </section>
-          <hr width="100%" className="my-10" />
-          <section className="w-full my-14 py-4 md:px-20 px-10">
-            <CardSliders title="Similar Properties" cards={similarProperty} />
-          </section>
+          {similarProperty?.length > 0 ? (
+            <>
+              <hr width="100%" className="my-10" />
+              <section className="w-full my-14 py-4 md:px-20 px-10">
+                <CardSliders
+                  title="Similar Properties"
+                  cards={similarProperty}
+                />
+              </section>
+            </>
+          ) : (
+            ""
+          )}
           <hr width="100%" className="my-10" />
           <Newsletter />
           <hr width="100%" className="my-10" />

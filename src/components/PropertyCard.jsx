@@ -27,10 +27,10 @@ const PropertyCard = ({
           <span className="text-xs absolute top-2 left-2 font-medium bg-white px-2 py-1">
             {propertyStatus}
           </span>
-          {propertyImage?.data?.attributes?.formats?.thumbnail?.url !==
+          {propertyImage?.data?.attributes?.formats?.medium?.url !==
           undefined ? (
             <Image
-              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${propertyImage?.data?.attributes?.formats?.thumbnail?.url}`}
+              src={`${propertyImage?.data?.attributes?.formats?.thumbnail?.url}`}
               alt="house"
               width={0}
               height={0}

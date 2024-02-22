@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 const NEXT_PUBLIC_STRAPI_KEY = process.env.NEXT_PUBLIC_STRAPI_KEY;
 const NEXT_PUBLIC_STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-export default function useGetBlog(id) {
+export default function useGetCity(id) {
   const [loading, setLoading] = useState(true);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch(
-          `${NEXT_PUBLIC_STRAPI_URL}/api/blogs?populate=*&filters[slug][$eq]=${id}`,
+          `${NEXT_PUBLIC_STRAPI_URL}/api/property-cities?filters[slug][$eq]=${id}&populate=*`,
           {
             method: "GET",
             headers: {
@@ -31,5 +31,5 @@ export default function useGetBlog(id) {
     })();
   }, [id]);
 
-  return { data: result, loading: loading, error: error };
+  return { data: result, loading, error };
 }
