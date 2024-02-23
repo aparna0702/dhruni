@@ -12,7 +12,7 @@ export default function useGetTown(id) {
     (async () => {
       try {
         const res = await fetch(
-          `${NEXT_PUBLIC_STRAPI_URL}/api/property-towns?filters[slug][$eq]=${id}}&populate=*`,
+          `${NEXT_PUBLIC_STRAPI_URL}/api/property-towns?filters[slug][$eq]=${id}&populate=*`,
           {
             method: "GET",
             headers: {
@@ -22,7 +22,7 @@ export default function useGetTown(id) {
           }
         );
         const data = await res.json();
-        setResult(data[0]);
+        setResult(data.data[0]);
       } catch (error) {
         setError(error);
       } finally {

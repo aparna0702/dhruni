@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import PageNotFound from "@/components/PageNotFound";
 import Head from "next/head";
 import Map from "@/components/Map";
+import MapContext from "@/hooks/useMapContext";
 
 const PropertyDetails = () => {
   const { city, town, propId } = useRouter().query;
@@ -265,10 +266,14 @@ const PropertyDetails = () => {
                 </p>
                 <br />
                 <div className="w-full h-96 border border-black">
-                  <Map
-                    lat={property?.attributes?.latitude}
-                    lng={property?.attributes?.longitude}
-                  />
+                  <MapContext.Provider
+                    value={{
+                      lat: property?.attributes?.latitude || 0,
+                      lng: property?.attributes?.longitude || 0,
+                    }}
+                  >
+                    <Map />
+                  </MapContext.Provider>
                 </div>
                 <br />
                 {/* <Link

@@ -5,6 +5,7 @@ import PropertyCard from "@/components/PropertyCard";
 import useGetAllProperties from "@/hooks/useGetAllProperties";
 import useGetAllPropertyType from "@/hooks/useGetAllPropertyType";
 import useGetTown from "@/hooks/useGetTown";
+import MapContext from "@/hooks/useMapContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -38,7 +39,14 @@ const Page = () => {
         <>
           <section className="w-full py-10 flex md:flex-row-reverse flex-col items-start px-3 md:px-10 gap-4">
             <div className="w-full 2xl:w-1/2 h-[75vh]">
-            <Map lat={townData?.attributes?.latitude} lng={townData?.attributes?.longitude}/>
+              <MapContext.Provider
+                value={{
+                  lat: townData?.attributes?.latitude || 0,
+                  lng: townData?.attributes?.longitude || 0,
+                }}
+              >
+                <Map />
+              </MapContext.Provider>
               {/* <Image
                 src={"/assets/images/map.jpeg"}
                 alt="property"
