@@ -20,7 +20,7 @@ const BlogsContainer = ({ cards }) => {
         ))}
       </div>
       <h6 className="w-full mt-8 text-right text-xs font-medium text-gray-700 hover:text-blue-500 hover:underline">
-        <Link href={"/blog"} className="w-full">
+        <Link href={"/blog/"} className="w-full">
           Read More
         </Link>
       </h6>

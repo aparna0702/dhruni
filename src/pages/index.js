@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import CardSliders from "@/components/CardSliders";
 import { Swiper, SwiperSlide } from "swiper/react";
-import parse from "html-react-parser";
 import {
   EffectFade,
   Pagination,
@@ -11,25 +10,29 @@ import {
   Autoplay,
   A11y,
 } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import parse from "html-react-parser";
 import "swiper/css/effect-fade";
 import SearchBox from "@/components/SearchBox";
 import Link from "next/link";
 import BlogsContainer from "@/components/BlogsContainer";
-import useGetAllProperties from "@/hooks/useGetAllProperties";
 import Navbar from "@/components/Navbar";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
-import { IoLocationOutline } from "react-icons/io5";
+import { IoClose, IoLocationOutline } from "react-icons/io5";
 import { FiArrowRight } from "react-icons/fi";
 import useGetPropertyBySortAndOffset from "@/hooks/useGetPropertyBySortAndOffset";
 import useGetBlogsBySortAndOffset from "@/hooks/useGetBlogsBySortAndOffset";
 import useGetHomePageContent from "@/hooks/useGetSingleCollection";
 import useGetPropertyByStatus from "@/hooks/useGetPropertyByStatus";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Page = () => {
   const [searchText, setSearchText] = useState("");
   const [openSearchBox, setOpenSearchBox] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menu, setMenu] = useState(false);
 
   const {
     data: exclusiveListings,
@@ -74,10 +77,15 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col justify-center items-center font-inter">
-      <Navbar position={"absolute"} logo={"white"} />
+      <Navbar
+        position={"absolute"}
+        logo={"white"}
+        menu={menu}
+        handle={setMenu}
+      />
       {isScrolled && (
-        <nav className="w-full fixed top-0 left-0 h-16 px-20 lg:px-36 gap-6 bg-white shadow-sm z-30 duration-300 flex flex-row items-center justify-center">
-          <div className="w-16 h-16 absolute left-3 lg:left-28">
+        <nav className="w-full fixed top-0 left-0 h-16 px-3 md:px-24 lg:px-32 gap-6 bg-white shadow-sm z-30 duration-300 flex flex-row items-center justify-between">
+          <div className="w-16 h-16">
             <Link href={"/"}>
               <Image
                 src="/assets/images/dhruniRealty.jpeg"
@@ -89,13 +97,15 @@ const Page = () => {
               />
             </Link>
           </div>
-          <div className="w-full max-w-[400px] w-auto">
+          <div className="w-3/6 max-w-[400px] w-auto">
             <span className="w-full h-full flex flex-row justify-center items-center bg-white pl-5 md:px-5 text-xl rounded-full border border-gray-300 relative">
-              <SearchBox
-                open={openSearchBox}
-                type={"navbar"}
-                text={searchText}
-              />
+              {searchText.length > 2 && (
+                <SearchBox
+                  open={openSearchBox}
+                  type={"navbar"}
+                  text={searchText}
+                />
+              )}
               <span>
                 <IoLocationOutline />
               </span>
@@ -114,6 +124,13 @@ const Page = () => {
               />
             </span>
           </div>
+          <span
+            className="w-10 text-2xl md:text-4xl block text-black
+          transition-all duration-300 ease-in-out cursor-pointer"
+            onClick={() => setMenu(!menu)}
+          >
+            {menu ? <IoClose /> : <RxHamburgerMenu />}
+          </span>
         </nav>
       )}
       <main className="w-full h-[60vh] lg:h-[70vh] flex flex-wrap flex-col justify-center items-center relative text-center pt-[100px] rounded-bl-3xl rounded-br-3xl border-box">
@@ -125,10 +142,10 @@ const Page = () => {
             pagination={{ clickable: true, dynamicBullets: true }}
             onSlideChange={() => {}}
             onSwiper={() => {}}
-            loop={true}
-            freeMode={true}
             navigation={true}
             effect={"fade"}
+            loop={true}
+            freeMode={true}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
@@ -178,7 +195,9 @@ const Page = () => {
         </h1>
         <div className="w-full max-w-[700px] h-[45px] mt-6 flex flex-row justify-center items-center px-6 relative z-10">
           <span className="w-full h-full flex flex-row justify-center items-center bg-white pl-5 md:px-5 text-xl md:rounded-tr-none md:rounded-br-none rounded-full overflow-hidden">
-            <SearchBox open={openSearchBox} type={"hero"} text={searchText} />
+            {searchText.length > 2 && (
+              <SearchBox open={openSearchBox} type={"hero"} text={searchText} />
+            )}
             <span>
               <IoLocationOutline />
             </span>
@@ -207,30 +226,51 @@ const Page = () => {
           SIMPLE SEARCH
         </h6>
       </main>
-      <div className="bg-[#f3f2ed] w-full h-48 md:h-36 relative -top-6 z-0 rounded-bl-3xl rounded-br-3xl pt-8 px-3 md:px-36 flex flex-col md:flex-row flex-wrap items-center justify-center gap-4">
+      <div className="bg-[#f3f2ed] w-full h-48 lg:h-36 relative -top-6 z-0 rounded-bl-3xl rounded-br-3xl pt-8 px-3 md:px-36 flex flex-col md:flex-row flex-wrap items-center justify-center gap-4">
         {homePage?.attributes?.builderLogo?.data?.length > 0 ? (
           <>
             <h6 className="text-gray-700 font-semibold w-full md:w-1/6 min-w-[250px] text-center uppercase">
               {`Trusted By`}
             </h6>
-            <div className="w-full md:w-4/6 flex flex-row flex-wrap min-w-[200px] justify-between">
-              {homePage?.attributes?.builderLogo?.data?.map((ele) => (
-                <Link
-                  href={`${ele?.attributes?.caption || "/"}`}
-                  target="_blank"
-                  className="w-24 h-auto lg:h-14 cursor-pointer"
-                  key={ele.id}
-                >
-                  <Image
-                    src={`${ele?.attributes?.url}`}
-                    alt={`${ele?.attributes?.alternativeText || "Builder"}`}
-                    width={0}
-                    height={0}
-                    sizes={"100vw"}
+            <div className="w-full md:w-4/6 flex flex-row flex-wrap items-center">
+              <Swiper
+                modules={[Autoplay, Pagination, A11y]}
+                loop={true}
+                freeMode={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }}
+                spaceBetween={30}
+                slidesPerView={3}
+                onSlideChange={() => {}}
+                onSwiper={() => {}}
+                className="h-28"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                {homePage?.attributes?.builderLogo?.data?.map((ele) => (
+                  <SwiperSlide
+                    key={ele?.id}
                     className="w-full h-full"
-                  />
-                </Link>
-              ))}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Link
+                      href={`${ele?.attributes?.caption || "/"}`}
+                      target="_blank"
+                      className="cursor-pointer"
+                      style={{ display: "flex", alignItems: "center" }}
+                      key={ele.id}
+                    >
+                      <Image
+                        src={`${ele?.attributes?.url}`}
+                        alt={`${ele?.attributes?.alternativeText || "Builder"}`}
+                        width={150}
+                        height={100}
+                      />
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           </>
         ) : (

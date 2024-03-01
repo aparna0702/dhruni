@@ -58,7 +58,6 @@ const PropertyDetails = () => {
       });
     });
   }
-  console.log(property);
   return (
     <div className="w-full font-inter relative">
       {loading ? (
@@ -175,12 +174,11 @@ const PropertyDetails = () => {
                   <li className="pr-6 text-gray-700 text-sm md:text-md font-normal">
                     {`${property?.attributes?.BHK} BHK`}
                   </li>
-                  <li className="pr-6 text-gray-700 text-sm md:text-md font-normal">
+                  {/* <li className="pr-6 text-gray-700 text-sm md:text-md font-normal">
                     4 Baths
-                  </li>
+                  </li> */}
                   <li className="pr-6 text-gray-700 text-sm md:text-md font-normal">
-                    {`${property?.attributes?.size} m`}
-                    <sup>2</sup>
+                    {`${property?.attributes?.size} sqft`}
                   </li>
                 </ul>
                 <div className="w-full text-sm lg:text-base text-gray-800">
@@ -200,7 +198,7 @@ const PropertyDetails = () => {
                   Features
                 </h1>
                 <div className="mt-12 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {property?.attributes?.amenities?.data.length > 0 ? (
+                  {property?.attributes?.amenities?.data?.length > 0 ? (
                     property?.attributes?.amenities?.data?.map((ele, i) => (
                       <div
                         key={i}
@@ -221,40 +219,49 @@ const PropertyDetails = () => {
                   )}
                 </div>
               </div>
-              <hr width="100%" className="my-10" />
-              <div className="flex flex-col gap-8 w-full justify-center items-center top-10 p-5">
-                <h1 className="w-full md:text-3xl text-xl font-ebGaramond font-medium">
-                  Ask a Question
-                </h1>
-                <div className="w-full flex flex-row items-center gap-5">
-                  <div className="w-12">
-                    <Image
-                      src="/assets/images/avatar.webp"
-                      alt={"Avatar"}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: "100%" }}
-                      className="rounded-full border border-gray-400"
-                    />
+              {property?.attributes?.builder?.data !== null ? (
+                <>
+                  <hr width="100%" className="my-10" />
+                  <div className="flex flex-col gap-8 w-full justify-center items-center top-10 p-5">
+                    <h1 className="w-full md:text-3xl text-xl font-ebGaramond font-medium">
+                      Ask a Question
+                    </h1>
+                    <div className="w-full flex flex-row items-center gap-5">
+                      <div className="w-12">
+                        <Image
+                          src="/assets/images/avatar.webp"
+                          alt={"Avatar"}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          style={{ width: "100%" }}
+                          className="rounded-full border border-gray-400"
+                        />
+                      </div>
+                      <span className="text-base font-medium">
+                        {
+                          property?.attributes?.builder?.data?.attributes
+                            ?.username
+                        }
+                      </span>
+                    </div>
+                    <div className="w-full my-2">
+                      <textarea
+                        placeholder="Ask the agent for more information about this property."
+                        className="w-full h-32 text-md p-2 focus:outline-none border border-gray-400"
+                        onChange={(e) => setAgentQuery(e.target.value)}
+                        value={agentQuery}
+                        style={{ resize: "none" }}
+                      ></textarea>
+                      <button className="my-2 w-48 h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
+                        Send message
+                      </button>
+                    </div>
                   </div>
-                  <span className="text-base font-medium">
-                    {property?.attributes?.builder?.data?.attributes?.username}
-                  </span>
-                </div>
-                <div className="w-full my-2">
-                  <textarea
-                    placeholder="Ask the agent for more information about this property."
-                    className="w-full h-32 text-md p-2 focus:outline-none border border-gray-400"
-                    onChange={(e) => setAgentQuery(e.target.value)}
-                    value={agentQuery}
-                    style={{ resize: "none" }}
-                  ></textarea>
-                  <button className="my-2 w-48 h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
-                    Send message
-                  </button>
-                </div>
-              </div>
+                </>
+              ) : (
+                ""
+              )}
               <hr width="100%" className="my-10" />
               <div className="w-full">
                 <h1 className="md:text-3xl text-xl font-ebGaramond font-medium">
@@ -270,6 +277,7 @@ const PropertyDetails = () => {
                     value={{
                       lat: property?.attributes?.latitude || 0,
                       lng: property?.attributes?.longitude || 0,
+                      zoom: 60,
                     }}
                   >
                     <Map />
@@ -312,121 +320,132 @@ const PropertyDetails = () => {
                 </table>
               </div>
               <hr width="100%" className="my-10" />
-              <div className="w-full">
-                <h1 className="md:text-3xl text-xl font-ebGaramond font-medium">
-                  Listed by
-                </h1>
-                <br />
-                <h6 className="font-medium">About</h6>
-                <p className="text-sm lg:text-base text-gray-800">
-                  {typeof property?.attributes?.builder?.data?.attributes
-                    ?.about === "string"
-                    ? parse(
-                        property?.attributes?.builder?.data?.attributes?.about
-                      )
-                    : ""}
-                </p>
-                <br />
-                <h6 className="font-medium">Registered on Dhruni Realty</h6>
-                <p className="text-sm lg:text-base text-gray-800">
-                  {property?.attributes?.builder?.data?.attributes?.createdAt.slice(
-                    0,
-                    4
-                  )}
-                </p>
-                <br />
-                <h6 className="font-medium">Address</h6>
-                <p className="text-sm lg:text-base text-gray-800">
-                  {property?.attributes?.builder?.data?.attributes?.address}
-                </p>
-                <br />
-                <h6 className="font-medium">Phone number</h6>
-                <p className="text-sm lg:text-base text-gray-800">
-                  {property?.attributes?.builder?.data?.attributes?.contact}
-                </p>
-                <br />
-                <p className="text-right">
-                  <Link
-                    href={`/builder/${property?.attributes?.builder?.data?.attributes?.slug}`}
-                    className="text-gray-700 text-base hover:underline font-semibold w-full text-center"
-                  >
-                    More Listings
-                  </Link>
-                </p>
-              </div>
+              {property?.attributes?.builder?.data !== null ? (
+                <div className="w-full">
+                  <h1 className="md:text-3xl text-xl font-ebGaramond font-medium">
+                    Listed by
+                  </h1>
+                  <br />
+                  <h6 className="font-medium">About</h6>
+                  <p className="text-sm lg:text-base text-gray-800">
+                    {typeof property?.attributes?.builder?.data?.attributes
+                      ?.about === "string"
+                      ? parse(
+                          property?.attributes?.builder?.data?.attributes?.about
+                        )
+                      : ""}
+                  </p>
+                  <br />
+                  <h6 className="font-medium">Registered on Dhruni Realty</h6>
+                  <p className="text-sm lg:text-base text-gray-800">
+                    {property?.attributes?.builder?.data?.attributes?.createdAt.slice(
+                      0,
+                      4
+                    )}
+                  </p>
+                  <br />
+                  <h6 className="font-medium">Address</h6>
+                  <p className="text-sm lg:text-base text-gray-800">
+                    {property?.attributes?.builder?.data?.attributes?.address}
+                  </p>
+                  <br />
+                  <h6 className="font-medium">Phone number</h6>
+                  <p className="text-sm lg:text-base text-gray-800">
+                    {property?.attributes?.builder?.data?.attributes?.contact}
+                  </p>
+                  <br />
+                  <p className="text-right">
+                    <Link
+                      href={`/builder/${property?.attributes?.builder?.data?.attributes?.slug}`}
+                      className="text-gray-700 text-base hover:underline font-semibold w-full text-center"
+                    >
+                      More Listings
+                    </Link>
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
-            <article className="lg:w-2/6 lg:max-w-[375px] hidden lg:flex flex flex-col gap-8 sticky border border-gray-300 justify-center items-center top-16 p-5">
-              <div className="w-full flex flex-row items-center gap-5">
-                <div className="w-1/5">
-                  <Image
-                    src="/assets/images/avatar.webp"
-                    alt={"Avatar"}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: "100%" }}
-                    className="rounded-full border border-gray-400"
-                  />
-                </div>
-                <div className="w-4/5 flex flex-col justify-center">
-                  <span className="text-base font-medium">
-                    {property?.attributes?.builder?.data?.attributes?.username}
-                  </span>
-                  <span className="text-sm text-gray-700">{`${getSpentYearsAgent(
-                    new Date(
-                      property?.attributes?.builder?.data?.attributes?.createdAt
-                    )
-                  )} year with Dhruni`}</span>
-                </div>
-              </div>
-              <div className="w-full text-gray-800">
-                <h4 className="text-lg font-semibold">Contact the agent</h4>
-                <div className="w-full my-2 border border-gray-400">
-                  <textarea
-                    placeholder="Type your message..."
-                    className="w-full h-32 text-md p-2 focus:outline-none"
-                    onChange={(e) => setInputQuery(e.target.value)}
-                    value={inputQuery}
-                  ></textarea>
-                  <div className="flex flex-row flex-wrap gap-4 p-3">
-                    <span
-                      className="border border-red-800 text-red-700 cursor-pointer rounded-lg p-2"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        setInputQuery("Is this property still available?");
-                      }}
-                    >
-                      Is it available?
+            {property?.attributes?.builder?.data !== null ? (
+              <article className="lg:w-2/6 lg:max-w-[375px] hidden lg:flex flex flex-col gap-8 sticky border border-gray-300 justify-center items-center top-16 p-5">
+                <div className="w-full flex flex-row items-center gap-5">
+                  <div className="w-1/5">
+                    <Image
+                      src="/assets/images/avatar.webp"
+                      alt={"Avatar"}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{ width: "100%" }}
+                      className="rounded-full border border-gray-400"
+                    />
+                  </div>
+                  <div className="w-4/5 flex flex-col justify-center">
+                    <span className="text-base font-medium">
+                      {
+                        property?.attributes?.builder?.data?.attributes
+                          ?.username
+                      }
                     </span>
-                    <span
-                      className="border border-red-800 text-red-700 cursor-pointer rounded-lg p-2"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        setInputQuery("I'd like more property details.");
-                      }}
-                    >
-                      Share more details
-                    </span>
-                    <span
-                      className="border border-red-800 text-red-700 cursor-pointer rounded-lg p-2"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        setInputQuery(
-                          "I'd like to schedule a viewing for the property."
-                        );
-                      }}
-                    >
-                      Schedule a waiting
-                    </span>
+                    <span className="text-sm text-gray-700">{`${getSpentYearsAgent(
+                      new Date(
+                        property?.attributes?.builder?.data?.attributes?.createdAt
+                      )
+                    )} year with Dhruni`}</span>
                   </div>
                 </div>
-              </div>
-              <div className="w-full">
-                <button className="w-full h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
-                  Send message
-                </button>
-              </div>
-            </article>
+                <div className="w-full text-gray-800">
+                  <h4 className="text-lg font-semibold">Contact the agent</h4>
+                  <div className="w-full my-2 border border-gray-400">
+                    <textarea
+                      placeholder="Type your message..."
+                      className="w-full h-32 text-md p-2 focus:outline-none"
+                      onChange={(e) => setInputQuery(e.target.value)}
+                      value={inputQuery}
+                    ></textarea>
+                    <div className="flex flex-row flex-wrap gap-4 p-3">
+                      <span
+                        className="border border-red-800 text-red-700 cursor-pointer rounded-lg p-2"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setInputQuery("Is this property still available?");
+                        }}
+                      >
+                        Is it available?
+                      </span>
+                      <span
+                        className="border border-red-800 text-red-700 cursor-pointer rounded-lg p-2"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setInputQuery("I'd like more property details.");
+                        }}
+                      >
+                        Share more details
+                      </span>
+                      <span
+                        className="border border-red-800 text-red-700 cursor-pointer rounded-lg p-2"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setInputQuery(
+                            "I'd like to schedule a viewing for the property."
+                          );
+                        }}
+                      >
+                        Schedule a waiting
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <button className="w-full h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
+                    Send message
+                  </button>
+                </div>
+              </article>
+            ) : (
+              ""
+            )}
           </section>
           {similarProperty?.length > 0 ? (
             <>

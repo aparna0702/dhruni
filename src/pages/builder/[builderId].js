@@ -87,12 +87,12 @@ const Page = () => {
                           propertyArea={project?.attributes?.size}
                           propertyStatus={project?.attributes?.status}
                           propertyCity={
-                            project?.attributes?.property_city.data.attributes
-                              .city
+                            project?.attributes?.property_city?.data?.attributes
+                              ?.city
                           }
                           propertyTown={
-                            project?.attributes?.property_town.data.attributes
-                              .town
+                            project?.attributes?.property_town?.data?.attributes
+                              ?.town
                           }
                         />
                       </div>

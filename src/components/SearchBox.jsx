@@ -39,9 +39,9 @@ const SearchBox = ({ open, type, text }) => {
                 />
               </div>
               <div className="w-7/12 h-full flex flex-col items-start justify-start text-left">
-                <h6 className="text-base">{ele?.attributes.title}</h6>
-                <p>{ele?.attributes.location}</p>
-                <p>{formatIndianCurrency(ele?.attributes.price)}</p>
+                <h6 className="text-base">{ele?.attributes?.title}</h6>
+                <p>{ele?.attributes?.location}</p>
+                <p>{formatIndianCurrency(ele?.attributes?.price)}</p>
               </div>
             </div>
           </Link>

@@ -20,7 +20,7 @@ const PropertyCard = ({
   return (
     <article className="m-2 shadow-md max-h-[380px] border border-gray-300 pb-4 w-full block font-inter">
       <Link
-        href={`/property/${propertyCity}/${propertyTown}/${propertySlug}`}
+        href={`/${propertySlug}`}
         className="cursor-pointer"
       >
         <header className="w-full md:h-60 h-56 relative">
@@ -54,7 +54,7 @@ const PropertyCard = ({
           <span className="flex flex-col items-start justify-center">
             <h6 className="text-xs text-black">Area</h6>
             <h6 className="text-sm font-medium">
-              {`${propertyArea}`} m<sup>2</sup>
+              {`${propertyArea}`} sqft
             </h6>
           </span>
           <span className="flex flex-col items-start justify-center">

@@ -12,8 +12,6 @@ const Page = () => {
   const { blogId } = useRouter().query;
   const { data: blog, loading, error } = useGetBlog(blogId);
 
-  console.log(blog)
-
   const pageNotFound = () => <PageNotFound />;
 
   useEffect(() => {

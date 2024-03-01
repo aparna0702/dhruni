@@ -6,15 +6,15 @@ import { Icon } from "leaflet";
 import MapContext from "@/hooks/useMapContext";
 
 const MapBox = () => {
-  const { lat, lng } = useContext(MapContext);
+  const { lat, lng, zoom } = useContext(MapContext);
   const customIcon = new Icon({
     iconSize: [38, 38],
     iconUrl: "/assets/images/marker.png",
   });
   return (
     <MapContainer
-      center={[lng, lat]}
-      zoom={13}
+      center={[lat, lng]}
+      zoom={zoom}
       scrollWheelZoom={false}
       className="w-full h-full"
     >

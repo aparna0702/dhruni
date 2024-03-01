@@ -4,12 +4,23 @@ import Link from "next/link";
 import React from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
+import useGetAllPropertyCities from "@/hooks/useGetAllPropertyCities";
+import useGetPropertyByStatus from "@/hooks/useGetPropertyByStatus";
 
-const Navbar = ({ position, logo }) => {
-  // const [menu, setMenu] = React.useState(false);
+const Navbar = ({ position, logo, menu, handle }) => {
+  const { data: cities, loading, error } = useGetAllPropertyCities();
+
+  const {
+    data: exclusiveListings,
+    loading: exclusiveListingsLoading,
+    error: exclusiveListingsError,
+  } = useGetPropertyByStatus("Exclusive", 10);
+
+  const [propertyMenu, setPropertyMenu] = React.useState(false);
+  const [locationMenu, setLocationMenu] = React.useState(false);
   return (
     <div
-      className={`w-full h-16 flex lg:flex-row items-center justify-between px-3 lg:px-36 py-3 gap-6 ${position} top-0 left-0 z-40 border border-[#fff5] border-t-0 border-l-0 border-r-0 shadow-sm`}
+      className={`w-full h-16 flex flex-row items-center justify-between px-3 lg:px-36 py-3 gap-6 ${position} top-0 left-0 z-40 border border-[#fff5] border-t-0 border-l-0 border-r-0 shadow-sm`}
     >
       <div className="w-16 h-16">
         <Link href={"/"}>
@@ -34,28 +45,241 @@ const Navbar = ({ position, logo }) => {
           )}
         </Link>
       </div>
-      <div className="flex flex-col md:flex-row">
-        {/* <span
-          className="text-4xl block md:hidden text-white
+      <span
+        className="text-4xl block md:hidden text-white
           transition-all duration-300 ease-in-out cursor-pointer"
-          onClick={() => setMenu(!menu)}
-        >
-          {menu ? <IoClose /> : <RxHamburgerMenu />}
-        </span> */}
-        {/* <ul
-          className={` flex flex-col md:flex-row justify-center md:justify-between items-center text-white font-semibold text-xl font-roboto gap-3 bg-gray-800 z-50 ${
-            menu
-              ? "w-screen h-screen fixed top-24 left-0 border-t-2"
-              : "relative"
-          }`}
-        >
-          <li className="px-6 cursor-pointer">About</li>
-          <li className="px-6 cursor-pointer">Contact</li>
-          <li className="px-6 cursor-pointer">
-            <Link href={"/properties"}>Properties</Link>
-          </li>
-        </ul> */}
-      </div>
+        onClick={() => handle(!menu)}
+      >
+        {menu ? <IoClose /> : <RxHamburgerMenu />}
+      </span>
+      <ul
+        className={` md:flex hidden flex-col md:flex-row justify-center md:justify-between items-center text-white font-semibold text-sm font-roboto gap-3 z-50 relative`}
+      >
+        {/* <li className="px-6 cursor-pointer">About</li>
+        <li className="px-6 cursor-pointer">Contact</li> */}
+        <li className="px-6 cursor-pointer relative">
+          <button
+            onClick={() => setLocationMenu(!locationMenu)}
+            class="text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            type="button"
+            onBlur={() =>
+              setTimeout(() => {
+                setLocationMenu(false);
+              }, 500)
+            }
+          >
+            Select Locations
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+          <div
+            id="dropdown"
+            class={`z-10 ${
+              locationMenu ? "block" : "hidden"
+            } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute`}
+          >
+            <ul
+              class="py-2 text-sm text-gray-800"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              {cities?.map((ele) => (
+                <li key={ele?.id}>
+                  <a
+                    href={`/property/${ele?.attributes?.slug}/`}
+                    class="block px-4 py-2 hover:bg-gray-300 capitalize"
+                  >
+                    {ele?.attributes?.city}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+        <li className="px-6 cursor-pointer relative">
+          <button
+            onClick={() => setPropertyMenu(!propertyMenu)}
+            class="text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            type="button"
+            onBlur={() =>
+              setTimeout(() => {
+                setPropertyMenu(false);
+              }, 300)
+            }
+          >
+            Properties
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+          <div
+            id="dropdown"
+            class={`z-10 ${
+              propertyMenu ? "block" : "hidden"
+            } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute`}
+          >
+            <ul
+              class="py-2 text-sm text-gray-700 "
+              aria-labelledby="dropdownDefaultButton"
+            >
+              {exclusiveListings?.map((ele) => (
+                <li key={ele?.id}>
+                  <a
+                    href={`/${ele?.attributes?.slug}/`}
+                    class="block px-4 py-2 hover:bg-gray-300 capitalize"
+                  >
+                    {ele?.attributes?.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+        <button className="border border-white bg-white text-black hover:text-white hover:bg-transparent px-3 py-2 rounded-md text-sm">
+          Enquire Now
+        </button>
+      </ul>
+      {menu && (
+        <div className="w-full h-screen bg-white fixed top-16 left-0 text-black">
+          <ul
+            className={`flex flex-col w-full h-full justify-center items-center font-semibold text-sm font-roboto gap-10 z-50 relative`}
+          >
+            <li className="px-6 cursor-pointer">
+              <Link href={"/"}>Home</Link>
+            </li>
+            {/* <li className="px-6 cursor-pointer">Contact</li> */}
+            <li className="px-6 cursor-pointer relative">
+              <button
+                onBlur={() =>
+                  setTimeout(() => {
+                    setLocationMenu(false);
+                  }, 500)
+                }
+                onClick={() => setLocationMenu(!locationMenu)}
+                class="text-black focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                type="button"
+              >
+                Select Locations
+                <svg
+                  class="w-2.5 h-2.5 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <div
+                id="dropdown"
+                class={`z-10 ${
+                  locationMenu ? "block" : "hidden"
+                } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute`}
+              >
+                <ul
+                  class="py-2 text-sm text-gray-800"
+                  aria-labelledby="dropdownDefaultButton"
+                >
+                  {cities?.map((ele) => (
+                    <li key={ele?.id}>
+                      <a
+                        href={`/property/${ele?.attributes?.slug}/`}
+                        class="block px-4 py-2 hover:bg-gray-300 capitalize"
+                      >
+                        {ele?.attributes?.city}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+            <li className="px-6 cursor-pointer relative">
+              <button
+                onBlur={() =>
+                  setTimeout(() => {
+                    setPropertyMenu(false);
+                  }, 500)
+                }
+                onClick={() => setPropertyMenu(!propertyMenu)}
+                class="text-black focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                type="button"
+              >
+                Properties
+                <svg
+                  class="w-2.5 h-2.5 ms-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <div
+                id="dropdown"
+                class={`z-10 ${
+                  propertyMenu ? "block" : "hidden"
+                } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute`}
+              >
+                <ul
+                  class="py-2 text-sm text-gray-700 "
+                  aria-labelledby="dropdownDefaultButton"
+                >
+                  {exclusiveListings?.map((ele) => (
+                    <li key={ele?.id}>
+                      <a
+                        href={`/${ele?.attributes?.slug}/`}
+                        class="block px-4 py-2 hover:bg-gray-300 capitalize"
+                      >
+                        {ele?.attributes?.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+            <button className="border border-black text-black px-3 py-2 rounded-md text-sm">
+              Enquire Now
+            </button>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

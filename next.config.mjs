@@ -10,10 +10,6 @@ const nextConfig = {
         hostname: "localhost",
       },
       {
-        protocol: "https",
-        hostname: "strapi-service-q1ap.onrender.com",
-      },
-      {
         protocol: "http",
         hostname: "api.dhrunirealty.in",
       },

@@ -1,15 +1,13 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useSwiper } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Thumbs, A11y } from "swiper/modules";
 import PropertyCard from "./PropertyCard";
-
-import { GrFormPrevious } from "react-icons/gr";
-import { GrFormNext } from "react-icons/gr";
+import { Pagination, Thumbs, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { GrFormPrevious } from "react-icons/gr";
+import { GrFormNext } from "react-icons/gr";
 import Link from "next/link";
 import { SyncLoader } from "react-spinners";
 
@@ -20,7 +18,7 @@ const CardSliders = ({ title, loading, cards = [] }) => {
   return (
     <div className="w-full">
       <div className="w-full flex flex-row justify-between items-center">
-        <Link href={"/property"} className="w-full">
+        <Link href={"/property/"} className="w-full">
           <h1 className="text-xl font-normal relative capitalize">{title}</h1>
         </Link>
         <div className="flex flex-row md:w-20 justify-between items-center">
@@ -65,19 +63,19 @@ const CardSliders = ({ title, loading, cards = [] }) => {
                 >
                   <PropertyCard
                     key={i}
-                    propertySlug={ele.attributes.slug}
-                    propertyTitle={ele.attributes.title}
-                    propertyLocation={ele.attributes.location}
-                    propertyPrice={ele.attributes.price}
-                    propertyImage={ele.attributes.image}
-                    propertyType={ele.attributes.property_type}
-                    propertyArea={ele.attributes.size}
-                    propertyStatus={ele.attributes.status}
+                    propertySlug={ele?.attributes?.slug}
+                    propertyTitle={ele?.attributes?.title}
+                    propertyLocation={ele?.attributes?.location}
+                    propertyPrice={ele?.attributes?.price}
+                    propertyImage={ele?.attributes?.image}
+                    propertyType={ele?.attributes?.property_type}
+                    propertyArea={ele?.attributes?.size}
+                    propertyStatus={ele?.attributes?.status}
                     propertyCity={
-                      ele.attributes.property_city.data.attributes.city
+                      ele?.attributes?.property_city?.data?.attributes?.city
                     }
                     propertyTown={
-                      ele.attributes.property_town.data.attributes.town
+                      ele?.attributes?.property_town?.data?.attributes?.town
                     }
                   />
                 </SwiperSlide>

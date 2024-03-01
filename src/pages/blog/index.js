@@ -23,7 +23,7 @@ const Page = () => {
                 className="w-full border border-gray-400 rounded-lg p-2 max-w-[320px]"
                 key={ele?.id}
               >
-                <Link href={`/blog/${ele?.attributes?.slug}`}>
+                <Link href={`/blog/${ele?.attributes?.slug}/`}>
                   <header className="w-full h-48">
                     <Image
                       src={`${ele?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
