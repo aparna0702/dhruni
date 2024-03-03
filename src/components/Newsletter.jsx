@@ -5,31 +5,34 @@ const Newsletter = () => {
   const [email, setEmail] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [valid, setValid] = React.useState(true);
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    setValid(emailRegex.test(email));
+    if (!emailRegex.test(email)) {
+      setValid(false);
+      return;
+    }
     try {
-      if (!valid) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/news-letters`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_KEY}`,
+      setValid(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/news-letters`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_KEY}`,
+          },
+          body: JSON.stringify({
+            data: {
+              email,
+              subscribed: false,
             },
-            body: JSON.stringify({
-              data: {
-                email,
-                subscribed: false,
-              },
-            }),
-          }
-        );
-        if (response.ok) {
-          setMessage("You have successfully subscribed to our newsletter");
+          }),
         }
+      );
+      if (response.ok) {
+        setMessage("You have successfully subscribed to our newsletter");
       }
     } catch (err) {
       console.log(err);
