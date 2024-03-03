@@ -22,7 +22,7 @@ const GalleryModal = ({ open, close, images }) => {
     <div
       className={`${
         open ? "flex" : "hidden"
-      } w-full h-screen items-center justify-center p-2 md:p-20 lg:p-44 fixed top-0 left-0 bg-[#000d] z-50`}
+      } w-full h-screen items-center justify-center p-2 md:p-20 lg:p-44 fixed top-0 left-0 bg-[#000d] z-[1011]`}
     >
       <section
         className="w-full h-screen rounded-3xl bg-[#fff] p-10 pt-20 md:p-20 relative no-scrollbar"
@@ -34,7 +34,7 @@ const GalleryModal = ({ open, close, images }) => {
         >
           <RxCross2 />
         </span>
-        <div className="w-full h-full overflow-y-scroll">
+        <div className="w-full h-full overflow-y-scroll no-scrollbar z-[1020]">
           <Gallery
             images={images}
             onClick={handleClick}

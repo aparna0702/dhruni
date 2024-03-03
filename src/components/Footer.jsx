@@ -147,7 +147,7 @@ const Footer = () => {
             </Link>
           </span>
           <span className="text-sm font-semibold text-gray-400">
-            © 2024 Dhruni Realty
+            {`© ${new Date().getFullYear()} Dhruni Realty`}
           </span>
         </div>
       </div>

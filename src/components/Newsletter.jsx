@@ -4,28 +4,32 @@ import React from "react";
 const Newsletter = () => {
   const [email, setEmail] = React.useState("");
   const [message, setMessage] = React.useState("");
+  const [valid, setValid] = React.useState(true);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setValid(emailRegex.test(email));
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/news-letters`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_KEY}`,
-          },
-          body: JSON.stringify({
-            data: {
-              email,
-              subscribed: false,
+      if (!valid) {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/news-letters`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_KEY}`,
             },
-          }),
+            body: JSON.stringify({
+              data: {
+                email,
+                subscribed: false,
+              },
+            }),
+          }
+        );
+        if (response.ok) {
+          setMessage("You have successfully subscribed to our newsletter");
         }
-      );
-      console.log(response);
-      if (response.ok) {
-        setMessage("You have successfully subscribed to our newsletter");
       }
     } catch (err) {
       console.log(err);
@@ -52,6 +56,11 @@ const Newsletter = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-gray-400 px-4 py-2 focus:outline-none"
             />
+            {!valid && (
+              <h6 className="text-red-600 text-xs">
+                Please enter a valid Email
+              </h6>
+            )}
             <button
               className="bg-black hover:bg-black text-white font-semibold px-4 py-2 w-full"
               onClick={handleSubmit}

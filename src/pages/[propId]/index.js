@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Newsletter from "@/components/Newsletter";
 import { FaArrowLeft } from "react-icons/fa";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 import {
   formatIndianCurrency,
   formatDateToString,
@@ -47,6 +49,17 @@ const PropertyDetails = () => {
     }
   }, [propId]);
 
+  console.log(property);
+
+  if (property?.attributes?.image?.data) {
+    images.push({
+      src: `${property?.attributes?.image?.data?.attributes?.formats?.medium?.url}`,
+      original: `${property?.attributes?.image?.data?.attributes?.url}`,
+      width: 320,
+      height: 174,
+      caption: property?.attributes?.title,
+    });
+  }
   if (property?.attributes?.imageGallery?.data?.length > 0) {
     property?.attributes?.imageGallery?.data?.forEach((ele) => {
       images.push({
@@ -79,10 +92,10 @@ const PropertyDetails = () => {
             images={images}
           />
           {property?.attributes?.builder?.data !== null ? (
-            <section className="flex lg:hidden w-full h-16 fixed bottom-0 left-0 bg-white z-[1001] flex flex-row justify-between items-center px-8 border border-t-gray-400 border-t-1 border-b-0 border-l-0 border-r-0">
+            <section className="flex lg:hidden w-full h-16 fixed bottom-0 left-0 bg-white z-[1001] flex flex-row justify-center items-center px-8 border border-t-gray-400 border-t-1 border-b-0 border-l-0 border-r-0">
               {property?.attributes?.builder?.data?.attributes?.numberCall && (
                 <button
-                  className="w-full min-w-[100px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white"
+                  className="w-1/2 min-w-[100px] max-w-[300px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white"
                   onClick={() =>
                     window.open(
                       `tel:${
@@ -103,10 +116,9 @@ const PropertyDetails = () => {
                     property?.attributes?.builder?.data?.attributes
                       ?.whatsappNumber || ""
                   }`}
+                  className="w-1/2 min-w-[100px] max-w-[300px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white"
                 >
-                  <button className="w-full min-w-[100px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white">
-                    Text
-                  </button>
+                  <button className="w-full">Text</button>
                 </Link>
               )}
             </section>
@@ -138,19 +150,24 @@ const PropertyDetails = () => {
                 <FiCamera />
               </span>
               {`${
-                1 +
-                (isNaN(property?.attributes?.imageGallery?.data?.length)
+                isNaN(property?.attributes?.imageGallery?.data?.length)
                   ? 0
-                  : property?.attributes?.imageGallery?.data?.length)
+                  : 1 + property?.attributes?.imageGallery?.data?.length
               } ${
                 isNaN(property?.attributes?.imageGallery?.data?.length)
                   ? "Photo"
                   : "Photos"
               }`}
             </button>
-            <div className="row-span-2 col-span-2 overflow-hidden">
+            <div
+              className={`${
+                property?.attributes?.imageGallery?.data?.length < 4
+                  ? "row-span-4 col-span-4"
+                  : "row-span-2 col-span-2"
+              } overflow-hidden`}
+            >
               <Image
-                src={`${property?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                src={`${property?.attributes?.image?.data?.attributes?.url}`}
                 alt={"property"}
                 width={0}
                 height={0}

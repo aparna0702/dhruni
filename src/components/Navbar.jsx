@@ -28,7 +28,7 @@ const Navbar = ({ position, logo, menu, handle }) => {
   const [locationMenu, setLocationMenu] = React.useState(false);
   return (
     <div
-      className={`w-full h-16 flex flex-row items-center justify-between px-3 lg:px-36 py-3 gap-6 ${position} top-0 left-0 z-40 border border-[#fff5] border-t-0 border-l-0 border-r-0 shadow-sm`}
+      className={`w-full h-16 flex flex-row items-center justify-between px-3 lg:px-36 py-3 gap-6 ${position} top-0 left-0 z-[1010] border border-[#fff5] border-t-0 border-l-0 border-r-0 shadow-sm`}
     >
       <div className="w-16 h-16">
         <Link href={"/"}>
