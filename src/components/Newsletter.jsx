@@ -4,21 +4,26 @@ import React from "react";
 const Newsletter = () => {
   const [email, setEmail] = React.useState("");
   const [message, setMessage] = React.useState("");
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = fetch("https://api.example.com/newsletter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            email,
-            subscribed: false,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/news-letters`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_KEY}`,
           },
-        }),
-      });
+          body: JSON.stringify({
+            data: {
+              email,
+              subscribed: false,
+            },
+          }),
+        }
+      );
+      console.log(response);
       if (response.ok) {
         setMessage("You have successfully subscribed to our newsletter");
       }

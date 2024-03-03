@@ -17,7 +17,6 @@ const PropertyCard = ({
   propertyCity,
   propertyTown,
 }) => {
-  console.log(propertyImage);
   return (
     <article className="m-2 shadow-md max-h-[450px] border border-gray-300 pb-4 w-full block font-inter">
       <Link href={`/${propertySlug}`} className="cursor-pointer">
