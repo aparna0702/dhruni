@@ -6,6 +6,7 @@ import PageNotFound from "@/components/PageNotFound";
 import PropertyCard from "@/components/PropertyCard";
 import useGetBuilder from "@/hooks/useGetBuilder";
 import useGetPropertyByBuilder from "@/hooks/useGetPropertyByBuilder";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { SyncLoader } from "react-spinners";
@@ -47,12 +48,23 @@ const Page = () => {
           <br />
           <br />
           <div className="w-full flex flex-row items-center justify-center md:justify-start gap-6 flex-wrap">
-            <button className="bg-gray-900 text-white w-64 h-16 font-semibold text-lg tracking-wider uppercase hover:bg-gray-700">
-              send mail
-            </button>
-            <button className="border border-gray-400 text-gray-800 w-64 h-16 font-semibold text-lg tracking-wider uppercase hover:border-black">
-              phone number
-            </button>
+            {builder?.numberCall && (
+              <button
+                className="text-gray-900 border border-gray-900 w-64 h-16 font-semibold text-lg tracking-wider uppercase hover:bg-gray-700"
+                onClick={() =>
+                  window.open(`tel:${builder?.numberCall || 0}`, "_self")
+                }
+              >
+                Call
+              </button>
+            )}
+            {builder?.whatsappNumber && (
+              <Link href={`https://wa.me/${builder?.whatsappNumber || ""}`}>
+                <button className="bg-gray-900 text-white w-64 h-16 font-semibold text-lg tracking-wider uppercase hover:bg-gray-700">
+                  Send Text
+                </button>
+              </Link>
+            )}
           </div>
           <br />
           <br />
@@ -76,9 +88,9 @@ const Page = () => {
                 <div className="w-full flex flex-row items-center justify-center md:justify-start gap-6 flex-wrap">
                   {properties?.length > 0 ? (
                     properties?.map((project, index) => (
-                      <div className="w-[250px]" key={project?.id}>
+                      <div className="w-[300px]" key={project?.id}>
                         <PropertyCard
-                          propertyImage={project?.attribute?.image}
+                          propertyImage={project?.attributes?.image}
                           propertySlug={project?.attributes?.slug}
                           propertyTitle={project?.attributes?.title}
                           propertyLocation={project?.attributes?.location}

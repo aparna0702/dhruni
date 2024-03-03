@@ -20,7 +20,7 @@ const SearchBox = ({ open, type, text }) => {
       ) : (
         data?.map((ele) => (
           <Link
-            href={`/property/${ele?.attributes?.property_city?.data?.attributes?.city}/${ele?.attributes?.property_town?.data?.attributes?.town}/${ele?.attributes?.slug}`}
+            href={`/${ele?.attributes?.slug}`}
             className="cursor-pointer"
             key={ele?.id}
           >

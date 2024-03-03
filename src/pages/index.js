@@ -27,6 +27,7 @@ import useGetBlogsBySortAndOffset from "@/hooks/useGetBlogsBySortAndOffset";
 import useGetHomePageContent from "@/hooks/useGetSingleCollection";
 import useGetPropertyByStatus from "@/hooks/useGetPropertyByStatus";
 import { RxHamburgerMenu } from "react-icons/rx";
+import useGetSingleCollection from "@/hooks/useGetSingleCollection";
 
 const Page = () => {
   const [searchText, setSearchText] = useState("");
@@ -63,6 +64,12 @@ const Page = () => {
     loading: homePageLoading,
     error: homePageError,
   } = useGetHomePageContent("home-page");
+
+  const {
+    data: webConfig,
+    loading: webConfigLoading,
+    error: webConfigError,
+  } = useGetSingleCollection("web-config");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -104,6 +111,7 @@ const Page = () => {
                   open={openSearchBox}
                   type={"navbar"}
                   text={searchText}
+                  autoFocus
                 />
               )}
               <span>
@@ -208,6 +216,7 @@ const Page = () => {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onFocus={() => setOpenSearchBox(true)}
+              autoFocus
               onBlur={() =>
                 setTimeout(() => {
                   setOpenSearchBox(false);
@@ -345,10 +354,12 @@ const Page = () => {
                 explore luxury marketplace.
               </p>
             </span>
-            <button className="flex flex-row items-center justify-between text-semibold w-44 h-12 px-9 text-black bg-white font-semibold">
-              Get started
-              <FiArrowRight />
-            </button>
+            <Link href={webConfig?.attributes?.getStartedButton || "/"}>
+              <button className="flex flex-row items-center justify-between text-semibold w-44 h-12 px-9 text-black bg-white font-semibold">
+                Get started
+                <FiArrowRight />
+              </button>
+            </Link>
           </div>
         </div>
       </section>

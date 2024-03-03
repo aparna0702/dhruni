@@ -17,12 +17,10 @@ const PropertyCard = ({
   propertyCity,
   propertyTown,
 }) => {
+  console.log(propertyImage);
   return (
-    <article className="m-2 shadow-md max-h-[380px] border border-gray-300 pb-4 w-full block font-inter">
-      <Link
-        href={`/${propertySlug}`}
-        className="cursor-pointer"
-      >
+    <article className="m-2 shadow-md max-h-[450px] border border-gray-300 pb-4 w-full block font-inter">
+      <Link href={`/${propertySlug}`} className="cursor-pointer">
         <header className="w-full md:h-60 h-56 relative">
           <span className="text-xs absolute top-2 left-2 font-medium bg-white px-2 py-1">
             {propertyStatus}
@@ -30,7 +28,7 @@ const PropertyCard = ({
           {propertyImage?.data?.attributes?.formats?.medium?.url !==
           undefined ? (
             <Image
-              src={`${propertyImage?.data?.attributes?.formats?.thumbnail?.url}`}
+              src={`${propertyImage?.data?.attributes?.formats?.medium?.url}`}
               alt="house"
               width={0}
               height={0}
@@ -53,9 +51,7 @@ const PropertyCard = ({
         <div className="w-full mt-4 pr-4 flex flex-wrap justify-between items-center">
           <span className="flex flex-col items-start justify-center">
             <h6 className="text-xs text-black">Area</h6>
-            <h6 className="text-sm font-medium">
-              {`${propertyArea}`} sqft
-            </h6>
+            <h6 className="text-sm font-medium">{`${propertyArea}`} sqft</h6>
           </span>
           <span className="flex flex-col items-start justify-center">
             <h6 className="text-xs text-black">Price</h6>

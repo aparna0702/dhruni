@@ -78,16 +78,43 @@ const PropertyDetails = () => {
             close={setGalleryOpen}
             images={images}
           />
-          <section className="flex lg:hidden w-full h-16 fixed bottom-0 left-0 bg-white z-40 flex flex-row justify-between items-center px-8 border border-t-gray-400 border-t-1 border-b-0 border-l-0 border-r-0">
-            <button className="w-full min-w-[100px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white">
-              Call
-            </button>
-            <button className="w-full min-w-[100px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white">
-              Text
-            </button>
-          </section>
+          {property?.attributes?.builder?.data !== null ? (
+            <section className="flex lg:hidden w-full h-16 fixed bottom-0 left-0 bg-white z-[1001] flex flex-row justify-between items-center px-8 border border-t-gray-400 border-t-1 border-b-0 border-l-0 border-r-0">
+              {property?.attributes?.builder?.data?.attributes?.numberCall && (
+                <button
+                  className="w-full min-w-[100px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white"
+                  onClick={() =>
+                    window.open(
+                      `tel:${
+                        property?.attributes?.builder?.data?.attributes
+                          ?.numberCall || 0
+                      }`,
+                      "_self"
+                    )
+                  }
+                >
+                  Call
+                </button>
+              )}
+              {property?.attributes?.builder?.data?.attributes
+                ?.whatsappNumber && (
+                <Link
+                  href={`https://wa.me/${
+                    property?.attributes?.builder?.data?.attributes
+                      ?.whatsappNumber || ""
+                  }`}
+                >
+                  <button className="w-full min-w-[100px] bg-red-800 text-base text-center mx-2 p-2 font-semibold text-white">
+                    Text
+                  </button>
+                </Link>
+              )}
+            </section>
+          ) : (
+            ""
+          )}
           <Navbar position={"relative"} logo={"black"} />
-          <section className="w-full bg-white px-3 lg:px-36 py-3 border border-r-0 border-l-0 border-b-0 sticky top-0 z-20">
+          <section className="w-full bg-white px-3 lg:px-36 py-3 border border-r-0 border-l-0 border-b-0 sticky top-0 z-[1001]">
             <Link
               href={"/property"}
               className="flex items-center text-sm text-gray-700"
@@ -99,7 +126,7 @@ const PropertyDetails = () => {
             </Link>
           </section>
           <section
-            className={`w-full relative grid grid-cols-1 gap-1 lg:grid-cols-4 lg:px-16 max-h-[70vh]`}
+            className={`w-full relative grid grid-cols-1 gap-1 lg:grid-cols-4 lg:px-16 max-h-[70vh] overflow-hidden`}
           >
             <button
               className="absolute bottom-5 right-2 md:right-20 text-white font-bold flex flex-row items-center bg-[#000a] py-2 px-4 rounded-full border border-gray-500 text-xs lg:text-sm z-10"
@@ -253,9 +280,19 @@ const PropertyDetails = () => {
                         value={agentQuery}
                         style={{ resize: "none" }}
                       ></textarea>
-                      <button className="my-2 w-48 h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
-                        Send message
-                      </button>
+                      {property?.attributes?.builder?.data?.attributes
+                        ?.whatsappNumber && (
+                        <Link
+                          href={`https://wa.me/${
+                            property?.attributes?.builder?.data?.attributes
+                              ?.whatsappNumber || ""
+                          }?text=${agentQuery.replace(/\s/g, "%20")}`}
+                        >
+                          <button className="w-full h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
+                            Send message
+                          </button>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </>
@@ -284,14 +321,6 @@ const PropertyDetails = () => {
                   </MapContext.Provider>
                 </div>
                 <br />
-                {/* <Link
-                  href="https://goo.gl/maps/7JYz9Zq8qfXZ7Q6r9"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-semibold text-gray-800 mt-5 hover:underline"
-                >
-                  See in Google Maps
-                </Link> */}
               </div>
               <hr width="100%" className="my-10" />
               <div className="w-full">
@@ -438,9 +467,19 @@ const PropertyDetails = () => {
                   </div>
                 </div>
                 <div className="w-full">
-                  <button className="w-full h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
-                    Send message
-                  </button>
+                  {property?.attributes?.builder?.data?.attributes
+                    ?.whatsappNumber && (
+                    <Link
+                      href={`https://wa.me/${
+                        property?.attributes?.builder?.data?.attributes
+                          ?.whatsappNumber || ""
+                      }?text=${inputQuery.replace(/\s/g, "%20")}`}
+                    >
+                      <button className="w-full h-12 text-white text-md font-bold bg-red-800 hover:bg-red-900 cursor-pointer">
+                        Send message
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </article>
             ) : (
