@@ -50,7 +50,7 @@ const Page = () => {
           <div className="w-full flex flex-row items-center justify-center md:justify-start gap-6 flex-wrap">
             {builder?.numberCall && (
               <button
-                className="text-gray-900 border border-gray-900 w-64 h-16 font-semibold text-lg tracking-wider uppercase hover:bg-gray-700"
+                className="text-gray-900 border hover:text-white border-gray-900 w-64 h-16 font-semibold text-lg tracking-wider uppercase hover:bg-gray-700"
                 onClick={() =>
                   window.open(`tel:${builder?.numberCall || 0}`, "_self")
                 }
