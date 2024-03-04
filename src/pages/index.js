@@ -118,7 +118,7 @@ const Page = () => {
                 <IoLocationOutline />
               </span>
               <input
-                type="text"
+                type={`text`}
                 className="px-5 pl-2 py-2 focus:outline-none w-full text-sm bg-transparent"
                 placeholder="Property Name, Location or Builder"
                 value={searchText}
